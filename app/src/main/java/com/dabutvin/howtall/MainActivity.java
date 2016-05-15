@@ -20,6 +20,7 @@ import android.widget.ViewSwitcher;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements OnSeekBarChangeListener, ViewSwitcher.ViewFactory {
@@ -47,9 +48,12 @@ public class MainActivity extends AppCompatActivity implements OnSeekBarChangeLi
                 new DeserializePersonsTask(new PersonsCallbackInterface() {
                     @Override
                     public void onTaskFinished(List<Person> result) {
+
                         for (int i=0; i<result.size(); i++) {
                             persons.add(result.get(i));
                         }
+
+                        Collections.shuffle(persons);
 
                         startNewRound();
                     }
