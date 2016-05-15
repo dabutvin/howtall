@@ -9,6 +9,21 @@ import org.json.JSONObject;
 public class Person {
     private String name;
     private int height;
+    private String image;
+
+    public static Person ToPerson(JSONObject jsonObject){
+        Person person = new Person();
+
+        try{
+            person.setName(jsonObject.getString("name"));
+            person.setHeight(jsonObject.getInt("height"));
+            person.setImage(jsonObject.getString("image"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return person;
+    }
 
     public String getName() {
         return name;
@@ -26,16 +41,11 @@ public class Person {
         this.height = height;
     }
 
-    public static Person ToPerson(JSONObject jsonObject){
-        Person person = new Person();
+    public String getImage() {
+        return image;
+    }
 
-        try{
-            person.setName(jsonObject.getString("name"));
-            person.setHeight(jsonObject.getInt("height"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return person;
+    public void setImage(String image) {
+        this.image = image;
     }
 }

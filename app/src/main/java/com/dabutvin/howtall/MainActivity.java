@@ -1,18 +1,23 @@
 package com.dabutvin.howtall;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +59,10 @@ public class MainActivity extends AppCompatActivity implements OnSeekBarChangeLi
     }
 
     private void startNewRound(){
-        ((TextView)findViewById(R.id.name)).setText(persons.get(personindex).getName());
+        Person person = persons.get(personindex);
+
+        ((TextView)findViewById(R.id.name)).setText(person.getName());
+        Picasso.with(this).load(person.getImage()).into((ImageView) findViewById(R.id.img));
         ((SeekBar)findViewById(R.id.seekbar)).setProgress(0);
         ((TextSwitcher)findViewById(R.id.answer)).setCurrentText("");
     }
@@ -92,7 +100,15 @@ public class MainActivity extends AppCompatActivity implements OnSeekBarChangeLi
     }
 
     public void submit(View view) {
-        ((TextSwitcher)findViewById(R.id.answer)).setText(formatInches(persons.get(personindex).getHeight()));
+        TextSwitcher t = ((TextSwitcher) findViewById(R.id.answer));
+
+        if (persons.size() > personindex && selectedHeight == persons.get(personindex).getHeight()) {
+            ((TextView)t.getChildAt(0)).setTextColor(Color.GREEN);
+        } else {
+            ((TextView)t.getChildAt(0)).setTextColor(Color.RED);
+        }
+
+        t.setText(formatInches(persons.get(personindex).getHeight()));
     }
 
     private String formatInches(int totalInches) {
@@ -118,8 +134,9 @@ public class MainActivity extends AppCompatActivity implements OnSeekBarChangeLi
     @Override
     public View makeView() {
         TextView t = new TextView(this);
+
         t.setGravity(Gravity.CENTER_HORIZONTAL);
-        t.setTextSize(48);
+        t.setTextSize(42);
         return t;
     }
 }
